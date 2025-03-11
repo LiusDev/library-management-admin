@@ -2,6 +2,8 @@ import { AppShell } from "@mantine/core"
 import { Outlet } from "react-router"
 import MainLayoutHeader from "./_components/header"
 import MainLayoutNavbar from "./_components/navbar"
+import { Suspense } from "react"
+import TableSkeleton from "./_components/table-skeleton"
 
 function MainLayout() {
 	return (
@@ -17,7 +19,9 @@ function MainLayout() {
 			<MainLayoutHeader />
 			<MainLayoutNavbar />
 			<AppShell.Main>
-				<Outlet />
+				<Suspense fallback={<TableSkeleton />}>
+					<Outlet />
+				</Suspense>
 			</AppShell.Main>
 		</AppShell>
 	)

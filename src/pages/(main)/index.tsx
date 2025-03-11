@@ -1,5 +1,5 @@
 const HomePage = () => {
-	return <h1 className="text-6xl">Mai Linh xinh gái</h1>
+	return <h1 className="text-6xl"></h1>
 }
 
 export default HomePage

@@ -10,10 +10,10 @@ import "./index.css"
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
-		<MantineUIProvider>
-			<TanstackQueryProvider>
+		<TanstackQueryProvider>
+			<MantineUIProvider>
 				<ReactRouterProvider />
-			</TanstackQueryProvider>
-		</MantineUIProvider>
+			</MantineUIProvider>
+		</TanstackQueryProvider>
 	</StrictMode>
 )

@@ -7,3 +7,16 @@ export interface UserProfile {
 	createdAt: string
 	updatedAt: string
 }
+
+export interface ListData<T> {
+	data: T[]
+	total: number
+	page: number
+	limit: number
+}
+
+export interface Category {
+	_id: string
+	name: string
+	description: string
+}
