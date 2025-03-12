@@ -1,6 +1,6 @@
 import { Book } from "@/types"
 import { ActionIcon, Badge, Group, Text } from "@mantine/core"
-import { openModal } from "@mantine/modals"
+// import { openModal } from "@mantine/modals"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { DataTable, DataTableColumn, DataTableProps } from "mantine-datatable"
 import dayjs from "dayjs"
@@ -17,6 +17,7 @@ interface BookTableProps {
 const renderActions: DataTableColumn<Book>["render"] = (record) => (
 	<Group gap={4} justify="right" wrap="nowrap">
 		<ActionIcon
+			data-keep={record._id}
 			variant="transparent"
 			color="green"
 			onClick={(e) => {
