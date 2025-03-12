@@ -20,3 +20,16 @@ export interface Category {
 	name: string
 	description: string
 }
+
+export interface Book {
+	_id: string
+	title: string
+	description: string
+	author: string
+	publishedDate: string
+	quantity: number
+	cover: string
+	category: Category[]
+	createdAt: string
+	updatedAt: string
+}
