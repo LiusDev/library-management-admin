@@ -11,9 +11,7 @@ import "./index.css"
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<TanstackQueryProvider>
-			<MantineUIProvider>
-				<ReactRouterProvider />
-			</MantineUIProvider>
+			<ReactRouterProvider uiComponent={MantineUIProvider} />
 		</TanstackQueryProvider>
 	</StrictMode>
 )
