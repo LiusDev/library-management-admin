@@ -1,11 +1,24 @@
 import { Book } from "@/types"
-import { ActionIcon, Badge, Group, Text } from "@mantine/core"
+import {
+	ActionIcon,
+	Badge,
+	Button,
+	Group,
+	Stack,
+	Text,
+	Title,
+} from "@mantine/core"
 // import { openModal } from "@mantine/modals"
-import { IconEdit, IconTrash } from "@tabler/icons-react"
+import { IconEdit, IconEye, IconPlus, IconTrash } from "@tabler/icons-react"
 import { DataTable, DataTableColumn, DataTableProps } from "mantine-datatable"
 import dayjs from "dayjs"
-import { useSearchParamPagination, useSearchParamsSortOrder } from "@/hooks"
+import {
+	openDrawer,
+	useSearchParamPagination,
+	useSearchParamsSortOrder,
+} from "@/hooks"
 import { LIST_LIMIT } from "@/utils/constant"
+import BookFilter from "./book-filter"
 
 interface BookTableProps {
 	data: Book[]
@@ -17,18 +30,23 @@ interface BookTableProps {
 const renderActions: DataTableColumn<Book>["render"] = (record) => (
 	<Group gap={4} justify="right" wrap="nowrap">
 		<ActionIcon
+			variant="transparent"
+			onClick={(e) => {
+				e.stopPropagation() // 👈 prevent triggering the row click function
+				openDrawer({
+					title: `View book`,
+					children: <div>Book details</div>,
+				})
+			}}
+		>
+			<IconEye />
+		</ActionIcon>
+		<ActionIcon
 			data-keep={record._id}
 			variant="transparent"
 			color="green"
 			onClick={(e) => {
 				e.stopPropagation() // 👈 prevent triggering the row click function
-				// openModal({
-				// 	title: `Update book ${record.title}`,
-				// 	children: (
-				// 		// <CategoryUpsertModal type="update" record={record} />
-				// 		<></>
-				// 	),
-				// })
 			}}
 		>
 			<IconEdit size={18} />
@@ -50,10 +68,6 @@ const renderActions: DataTableColumn<Book>["render"] = (record) => (
 )
 
 const columns: DataTableProps<Book>["columns"] = [
-	// {
-	// 	accessor: "_id",
-	// 	title: "ID",
-	// },
 	{
 		accessor: "createdAt",
 		title: "Created At",
@@ -110,26 +124,39 @@ const BookTable = ({ data, isFetching, page, total }: BookTableProps) => {
 	const [sort, order, handleChangeSortOrder] = useSearchParamsSortOrder()
 	const [, handleChangePage] = useSearchParamPagination(1)
 	return (
-		<DataTable
-			withTableBorder
-			striped
-			highlightOnHover
-			pinLastColumn
-			columns={columns}
-			fetching={isFetching}
-			records={data}
-			page={page}
-			onPageChange={handleChangePage}
-			totalRecords={total}
-			recordsPerPage={LIST_LIMIT}
-			sortStatus={{
-				columnAccessor: sort,
-				direction: order,
-			}}
-			onSortStatusChange={({ columnAccessor, direction }) =>
-				handleChangeSortOrder(columnAccessor, direction)
-			}
-		/>
+		<Stack>
+			<Group justify="space-between">
+				<Title order={2}>Manage books</Title>
+				<BookFilter />
+				<Button
+					// onClick={() => {}}
+					leftSection={<IconPlus size={16} />}
+				>
+					Add new book
+				</Button>
+			</Group>
+			<DataTable
+				withTableBorder
+				striped
+				highlightOnHover
+				pinLastColumn
+				columns={columns}
+				fetching={isFetching}
+				records={data}
+				page={page}
+				onPageChange={handleChangePage}
+				totalRecords={total}
+				recordsPerPage={LIST_LIMIT}
+				sortStatus={{
+					columnAccessor: sort,
+					direction: order,
+				}}
+				onSortStatusChange={({ columnAccessor, direction }) =>
+					handleChangeSortOrder(columnAccessor, direction)
+				}
+				idAccessor="_id"
+			/>
+		</Stack>
 	)
 }
 

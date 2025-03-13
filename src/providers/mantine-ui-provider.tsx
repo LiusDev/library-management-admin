@@ -7,6 +7,7 @@ import "mantine-datatable/styles.layer.css"
 import { createTheme, MantineColorsTuple, MantineProvider } from "@mantine/core"
 import { Notifications } from "@mantine/notifications"
 import { ModalsProvider } from "@mantine/modals"
+import { DrawerProvider } from "./drawer-provider"
 
 const myColor: MantineColorsTuple = [
 	"#ffe9ff",
@@ -36,8 +37,10 @@ export const MantineUIProvider = ({
 	return (
 		<MantineProvider theme={theme}>
 			<ModalsProvider>
-				{children}
-				<Notifications />
+				<DrawerProvider>
+					{children}
+					<Notifications />
+				</DrawerProvider>
 			</ModalsProvider>
 		</MantineProvider>
 	)

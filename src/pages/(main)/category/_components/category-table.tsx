@@ -99,6 +99,7 @@ const CategoryTable = ({
 				onPageChange={handleChangePage}
 				totalRecords={total}
 				recordsPerPage={LIST_LIMIT}
+				idAccessor="_id"
 			/>
 		</Stack>
 	)
