@@ -7,6 +7,7 @@ import AddBookPage from "@/pages/(main)/book/new"
 import BorrowTransctionsPage from "@/pages/(main)/borrow-transaction"
 import CategoryPage from "@/pages/(main)/category"
 import MainLayout from "@/pages/(main)/layout"
+import UserPage from "@/pages/(main)/user"
 import ErrorPage from "@/pages/404"
 import { authLoader, nonAuthLoader } from "@/utils/loader"
 import { JSX, useMemo } from "react"
@@ -83,6 +84,16 @@ export const ReactRouterProvider = ({
 										{
 											path: ":bookId",
 											element: <BookDetailsPage />,
+										},
+									],
+								},
+								{
+									path: "/user",
+									element: <Outlet />,
+									children: [
+										{
+											index: true,
+											element: <UserPage />,
 										},
 									],
 								},

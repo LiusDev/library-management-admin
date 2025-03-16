@@ -49,6 +49,18 @@ export const authLoader = async () => {
 		// Try to fetch the user profile using the access_token in cookies
 		const user = await fetchUserProfile()
 
+		if (user.status === "banned") {
+			// If user is banned, redirect to home
+			console.error("User is banned:", user)
+			await logout()
+			useAuthStore.setState({
+				user: null,
+				isAuthenticated: false,
+				isLoading: false,
+			})
+			return redirect("/login?error=banned")
+		}
+
 		if (user && !["admin", "staff"].includes(user.role)) {
 			// If user is not admin or staff, redirect to home
 			console.error("User is not admin or staff:", user)

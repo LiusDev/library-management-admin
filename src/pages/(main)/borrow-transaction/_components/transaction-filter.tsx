@@ -50,7 +50,7 @@ const TransactionFilter = () => {
 	return (
 		<Group>
 			<TextInput
-				placeholder="Search book by title, description, author..."
+				placeholder="Search by ID, email or book title"
 				miw={400}
 				leftSection={<IconSearch size={16} />}
 				value={value}

@@ -20,7 +20,7 @@ import { useSearchParamPagination } from "@/hooks"
 import { LIST_LIMIT } from "@/utils/constant"
 import { useForm } from "@mantine/form"
 import { updateTransaction } from "@/services/borrowTransaction"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import TransactionFilter from "./transaction-filter"
 
 interface TransactionTableProps {
@@ -53,6 +53,13 @@ const UpdateTransactionModal = ({ record }: { record: BorrowTransaction }) => {
 			status: record.status,
 		},
 	})
+
+	useEffect(() => {
+		form.setValues({
+			status: record.status,
+		})
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [record])
 
 	const handleSubmit = async (values: typeof form.values) => {
 		setLoading(true)
