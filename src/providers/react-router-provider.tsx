@@ -4,6 +4,7 @@ import HomePage from "@/pages/(main)"
 import BookPage from "@/pages/(main)/book"
 import BookDetailsPage from "@/pages/(main)/book/[bookId]"
 import AddBookPage from "@/pages/(main)/book/new"
+import BorrowTransctionsPage from "@/pages/(main)/borrow-transaction"
 import CategoryPage from "@/pages/(main)/category"
 import MainLayout from "@/pages/(main)/layout"
 import ErrorPage from "@/pages/404"
@@ -52,6 +53,16 @@ export const ReactRouterProvider = ({
 								{
 									index: true,
 									element: <HomePage />,
+								},
+								{
+									path: "/borrow-transaction",
+									element: <Outlet />,
+									children: [
+										{
+											index: true,
+											element: <BorrowTransctionsPage />,
+										},
+									],
 								},
 								{
 									path: "/category",

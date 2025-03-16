@@ -72,8 +72,9 @@ const RenderActions: DataTableColumn<Book>["render"] = (record) => {
 		})
 	}
 	return (
-		<Group gap={4} justify="right" wrap="nowrap">
+		<Group gap={4} justify="center" wrap="nowrap">
 			<ActionIcon
+				size={"sm"}
 				variant="transparent"
 				onClick={(e) => {
 					e.stopPropagation() // 👈 prevent triggering the row click function
@@ -83,6 +84,7 @@ const RenderActions: DataTableColumn<Book>["render"] = (record) => {
 				<IconEye />
 			</ActionIcon>
 			<ActionIcon
+				size={"sm"}
 				variant="transparent"
 				onClick={(e) => {
 					e.stopPropagation() // 👈 prevent triggering the row click function
@@ -92,6 +94,7 @@ const RenderActions: DataTableColumn<Book>["render"] = (record) => {
 				<IconEdit />
 			</ActionIcon>
 			<ActionIcon
+				size={"sm"}
 				variant="transparent"
 				color="red"
 				onClick={(e) => {

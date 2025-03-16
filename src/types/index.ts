@@ -42,9 +42,9 @@ export interface Book {
 }
 
 export enum BorrowStatus {
+	CHECKING = "checking",
 	BORROWED = "borrowed",
 	RETURNED = "returned",
-	LATE = "late",
 }
 
 export interface BorrowTransaction {
@@ -53,8 +53,8 @@ export interface BorrowTransaction {
 	book: Book
 	borrowDate: string
 	dueDate: string
-	returnDate: string
 	status: BorrowStatus
+	returnDate: string | undefined
 	createdAt: string
 	updatedAt: string
 }

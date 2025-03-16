@@ -1,8 +1,13 @@
 import { AppShell, Button, Stack } from "@mantine/core"
-import { IconBook, IconCategory } from "@tabler/icons-react"
+import { IconBook, IconBookDownload, IconCategory } from "@tabler/icons-react"
 import { Link, useLocation } from "react-router"
 
 const menuItems = [
+	{
+		title: "Borrow Transaction",
+		href: "/borrow-transaction",
+		icon: IconBookDownload,
+	},
 	{
 		title: "Category",
 		href: "/category",
