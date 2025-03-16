@@ -1,6 +1,7 @@
 import { Book, ListData } from "@/types"
 import api from "@/utils/api"
 import { LIST_LIMIT } from "@/utils/constant"
+import { FileWithPath } from "@mantine/dropzone"
 import { useSuspenseQuery } from "@tanstack/react-query"
 
 const getAllBooks = async ({
@@ -44,4 +45,51 @@ export const useBooks = (
 		queryFn: () =>
 			getAllBooks({ keyword, categories, order, sort, page, limit }),
 	})
+}
+
+const getBookById = async (id: string | undefined) => {
+	if (!id) return null
+	const { data } = await api.get<Book>(`/admin/books/${id}`)
+	return data
+}
+
+export const useBook = (id: string | undefined) => {
+	return useSuspenseQuery({
+		queryKey: ["book", id],
+		queryFn: () => getBookById(id),
+	})
+}
+
+export const addBook = async (
+	data: Omit<
+		Book,
+		"_id" | "createdAt" | "updatedAt" | "cover" | "category"
+	> & {
+		cover: FileWithPath | null
+		category: string[]
+	}
+) => {
+	const { data: book } = await api.postForm<Book>("/admin/books", data)
+	return book
+}
+
+export const updateBook = async (
+	id: string | undefined,
+	data: Partial<
+		Omit<Book, "cover" | "category"> & {
+			cover: FileWithPath | null
+			category: string[]
+		}
+	>
+) => {
+	if (!id) return null
+	if (!data.cover) delete data.cover
+	const { data: book } = await api.postForm<Book>(`/admin/books/${id}`, data)
+	return book
+}
+
+export const deleteBook = async (id: string | undefined) => {
+	if (!id) return null
+	const { data } = await api.delete(`/admin/books/${id}`)
+	return data
 }

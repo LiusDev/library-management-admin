@@ -2,12 +2,14 @@ import "@mantine/core/styles.css"
 import "@mantine/dates/styles.css"
 import "@mantine/notifications/styles.css"
 import "@mantine/charts/styles.css"
+import "@mantine/dropzone/styles.css"
 import "mantine-datatable/styles.layer.css"
 
 import { createTheme, MantineColorsTuple, MantineProvider } from "@mantine/core"
 import { Notifications } from "@mantine/notifications"
 import { ModalsProvider } from "@mantine/modals"
 import { DrawerProvider } from "./drawer-provider"
+import { DatesProvider } from "@mantine/dates"
 
 const myColor: MantineColorsTuple = [
 	"#ffe9ff",
@@ -36,12 +38,14 @@ export const MantineUIProvider = ({
 }) => {
 	return (
 		<MantineProvider theme={theme}>
-			<ModalsProvider>
-				<DrawerProvider>
-					{children}
-					<Notifications />
-				</DrawerProvider>
-			</ModalsProvider>
+			<DatesProvider settings={{ locale: "vi" }}>
+				<ModalsProvider>
+					<DrawerProvider>
+						{children}
+						<Notifications />
+					</DrawerProvider>
+				</ModalsProvider>
+			</DatesProvider>
 		</MantineProvider>
 	)
 }

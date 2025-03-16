@@ -27,7 +27,9 @@ const MainLayoutNavbar = () => {
 						to={item.href}
 						leftSection={<item.icon size={18} />}
 						justify="start"
-						variant={pathname === item.href ? "filled" : "subtle"}
+						variant={
+							pathname.startsWith(item.href) ? "filled" : "subtle"
+						}
 					>
 						{item.title}
 					</Button>

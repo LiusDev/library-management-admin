@@ -18,7 +18,7 @@ function MainLayout() {
 		>
 			<MainLayoutHeader />
 			<MainLayoutNavbar />
-			<AppShell.Main>
+			<AppShell.Main className="flex flex-col">
 				<Suspense fallback={<TableSkeleton />}>
 					<Outlet />
 				</Suspense>

@@ -12,14 +12,14 @@ import {
 import { IconEdit, IconEye, IconPlus, IconTrash } from "@tabler/icons-react"
 import { DataTable, DataTableColumn, DataTableProps } from "mantine-datatable"
 import dayjs from "dayjs"
-import {
-	openDrawer,
-	useSearchParamPagination,
-	useSearchParamsSortOrder,
-} from "@/hooks"
+import { useSearchParamPagination, useSearchParamsSortOrder } from "@/hooks"
 import { LIST_LIMIT } from "@/utils/constant"
 import BookFilter from "./book-filter"
-
+import { Link, useNavigate } from "react-router"
+import { deleteBook } from "@/services/book"
+import { notifications } from "@mantine/notifications"
+import { useQueryClient } from "@tanstack/react-query"
+import { closeAllModals, openConfirmModal } from "@mantine/modals"
 interface BookTableProps {
 	data: Book[]
 	isFetching: boolean
@@ -27,45 +27,83 @@ interface BookTableProps {
 	total: number
 }
 
-const renderActions: DataTableColumn<Book>["render"] = (record) => (
-	<Group gap={4} justify="right" wrap="nowrap">
-		<ActionIcon
-			variant="transparent"
-			onClick={(e) => {
-				e.stopPropagation() // 👈 prevent triggering the row click function
-				openDrawer({
-					title: `View book`,
-					children: <div>Book details</div>,
-				})
-			}}
-		>
-			<IconEye />
-		</ActionIcon>
-		<ActionIcon
-			data-keep={record._id}
-			variant="transparent"
-			color="green"
-			onClick={(e) => {
-				e.stopPropagation() // 👈 prevent triggering the row click function
-			}}
-		>
-			<IconEdit size={18} />
-		</ActionIcon>
-		<ActionIcon
-			variant="transparent"
-			color="red"
-			onClick={(e) => {
-				e.stopPropagation() // 👈 prevent triggering the row click function
-				// openModal({
-				// 	title: `Delete book ${record.title}`,
-				// 	children: <DeleteCategoryConfirmModal record={record} />,
-				// })
-			}}
-		>
-			<IconTrash size={18} />
-		</ActionIcon>
-	</Group>
-)
+const RenderActions: DataTableColumn<Book>["render"] = (record) => {
+	const navigate = useNavigate()
+	const queryClient = useQueryClient()
+	const handleDelete = async () => {
+		try {
+			await deleteBook(record._id)
+			notifications.show({
+				color: "green",
+				title: "Book deleted",
+				message: "The book has been deleted successfully",
+			})
+			navigate("/book")
+			queryClient.invalidateQueries({
+				queryKey: ["books"],
+			})
+			queryClient.invalidateQueries({
+				queryKey: ["book", record._id],
+			})
+			navigate("/book")
+		} catch (error) {
+			console.error("Failed to delete book:", error)
+			notifications.show({
+				color: "red",
+				title: "Failed to delete book",
+				message: "An error occurred while deleting the book",
+			})
+		}
+	}
+
+	const handleOpenDeleteModal = () => {
+		openConfirmModal({
+			title: "Delete book",
+			children: (
+				<Text size="sm">
+					Are you sure you want to delete this book? This action
+					cannot be undone.
+				</Text>
+			),
+			labels: { confirm: "Delete book", cancel: "Cancel" },
+			confirmProps: { color: "red" },
+			onCancel: closeAllModals,
+			onConfirm: handleDelete,
+		})
+	}
+	return (
+		<Group gap={4} justify="right" wrap="nowrap">
+			<ActionIcon
+				variant="transparent"
+				onClick={(e) => {
+					e.stopPropagation() // 👈 prevent triggering the row click function
+					navigate(`/book/${record._id}`)
+				}}
+			>
+				<IconEye />
+			</ActionIcon>
+			<ActionIcon
+				variant="transparent"
+				onClick={(e) => {
+					e.stopPropagation() // 👈 prevent triggering the row click function
+					navigate(`/book/${record._id}?edit=true`)
+				}}
+			>
+				<IconEdit />
+			</ActionIcon>
+			<ActionIcon
+				variant="transparent"
+				color="red"
+				onClick={(e) => {
+					e.stopPropagation() // 👈 prevent triggering the row click function
+					handleOpenDeleteModal()
+				}}
+			>
+				<IconTrash size={18} />
+			</ActionIcon>
+		</Group>
+	)
+}
 
 const columns: DataTableProps<Book>["columns"] = [
 	{
@@ -117,7 +155,7 @@ const columns: DataTableProps<Book>["columns"] = [
 	},
 	{
 		accessor: "actions",
-		render: renderActions,
+		render: RenderActions,
 	},
 ]
 const BookTable = ({ data, isFetching, page, total }: BookTableProps) => {
@@ -129,8 +167,9 @@ const BookTable = ({ data, isFetching, page, total }: BookTableProps) => {
 				<Title order={2}>Manage books</Title>
 				<BookFilter />
 				<Button
-					// onClick={() => {}}
+					component={Link}
 					leftSection={<IconPlus size={16} />}
+					to={"/book/add"}
 				>
 					Add new book
 				</Button>

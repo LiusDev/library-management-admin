@@ -2,6 +2,8 @@ import AuthLayout from "@/pages/(auth)/layout"
 import { LoginPage } from "@/pages/(auth)/login"
 import HomePage from "@/pages/(main)"
 import BookPage from "@/pages/(main)/book"
+import BookDetailsPage from "@/pages/(main)/book/[bookId]"
+import AddBookPage from "@/pages/(main)/book/new"
 import CategoryPage from "@/pages/(main)/category"
 import MainLayout from "@/pages/(main)/layout"
 import ErrorPage from "@/pages/404"
@@ -57,7 +59,21 @@ export const ReactRouterProvider = ({
 								},
 								{
 									path: "/book",
-									element: <BookPage />,
+									element: <Outlet />,
+									children: [
+										{
+											index: true,
+											element: <BookPage />,
+										},
+										{
+											path: "add",
+											element: <AddBookPage />,
+										},
+										{
+											path: ":bookId",
+											element: <BookDetailsPage />,
+										},
+									],
 								},
 							],
 						},
