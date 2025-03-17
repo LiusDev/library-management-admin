@@ -306,7 +306,7 @@ const TransactionTable = ({
 				pinLastColumn
 				columns={columns}
 				fetching={isFetching}
-				records={data}
+				records={data || []}
 				page={page}
 				onPageChange={handleChangePage}
 				totalRecords={total}
