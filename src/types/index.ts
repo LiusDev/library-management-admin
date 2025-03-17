@@ -10,6 +10,7 @@ export interface UserProfile {
 	email: string
 	role: "user" | "staff" | "admin"
 	avatar: string
+	phone: string
 	status: "active" | "banned"
 	createdAt: string
 	updatedAt: string

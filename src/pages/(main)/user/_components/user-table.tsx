@@ -94,6 +94,12 @@ const UpdateUserModal = ({ record }: { record: UserProfile }) => {
 						<Text>{record.email}</Text>
 					</Grid.Col>
 					<Grid.Col span={1}>
+						<Text>Email</Text>
+					</Grid.Col>
+					<Grid.Col span={3}>
+						<Text>{record.phone}</Text>
+					</Grid.Col>
+					<Grid.Col span={1}>
 						<Text>Role</Text>
 					</Grid.Col>
 					<Grid.Col span={3}>
@@ -209,6 +215,10 @@ const columns: DataTableProps<UserProfile>["columns"] = [
 	{
 		accessor: "email",
 		title: "Email",
+	},
+	{
+		accessor: "phone",
+		title: "Phone",
 	},
 	{
 		accessor: "role",
