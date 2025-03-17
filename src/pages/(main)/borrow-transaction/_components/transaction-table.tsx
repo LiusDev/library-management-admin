@@ -217,7 +217,7 @@ const columns: DataTableProps<BorrowTransaction>["columns"] = [
 		render: (record) => {
 			return (
 				<div className="font-medium">
-					{record._id.substring(0, 8)}...
+					{record?._id.substring(0, 8)}...
 				</div>
 			)
 		},
@@ -229,12 +229,12 @@ const columns: DataTableProps<BorrowTransaction>["columns"] = [
 			return (
 				<div className="flex gap-2 items-center">
 					<img
-						src={record.user.avatar}
+						src={record?.user?.avatar}
 						alt="avatar"
 						className="w-8 h-8 rounded-full"
 					/>
 					<span className="text-muted-foreground">
-						{record.user.email}
+						{record?.user?.email}
 					</span>
 				</div>
 			)
@@ -248,7 +248,7 @@ const columns: DataTableProps<BorrowTransaction>["columns"] = [
 				<div className="flex flex-col">
 					<span className="font-medium">{record.book.title}</span>
 					<span className="text-xs text-muted-foreground">
-						by {record.book.author}
+						by {record?.book?.author}
 					</span>
 				</div>
 			)
