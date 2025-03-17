@@ -246,7 +246,7 @@ const columns: DataTableProps<BorrowTransaction>["columns"] = [
 		render: (record) => {
 			return (
 				<div className="flex flex-col">
-					<span className="font-medium">{record.book.title}</span>
+					<span className="font-medium">{record?.book?.title}</span>
 					<span className="text-xs text-muted-foreground">
 						by {record?.book?.author}
 					</span>
@@ -259,24 +259,24 @@ const columns: DataTableProps<BorrowTransaction>["columns"] = [
 		title: "Status",
 		render: (record) => {
 			const status = getStatus(record)
-			return <Badge color={status.color}>{status.label}</Badge>
+			return <Badge color={status?.color}>{status?.label}</Badge>
 		},
 	},
 	{
 		accessor: "borrowDate",
 		title: "Borrow Date",
-		render: (record) => formatDate(record.borrowDate),
+		render: (record) => formatDate(record?.borrowDate),
 	},
 	{
 		accessor: "dueDate",
 		title: "Due Date",
-		render: (record) => formatDate(record.dueDate),
+		render: (record) => formatDate(record?.dueDate),
 	},
 	{
 		accessor: "returnDate",
 		title: "Return Date",
 		render: (record) =>
-			record.returnDate ? formatDate(record.returnDate) : "-",
+			record.returnDate ? formatDate(record?.returnDate) : "-",
 	},
 	{
 		accessor: "actions",
