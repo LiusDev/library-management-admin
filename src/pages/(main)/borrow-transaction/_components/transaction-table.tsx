@@ -20,7 +20,7 @@ import { useSearchParamPagination } from "@/hooks"
 import { LIST_LIMIT } from "@/utils/constant"
 import { useForm } from "@mantine/form"
 import { updateTransaction } from "@/services/borrowTransaction"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import TransactionFilter from "./transaction-filter"
 
 interface TransactionTableProps {
@@ -60,6 +60,16 @@ const UpdateTransactionModal = ({ record }: { record: BorrowTransaction }) => {
 		})
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [record])
+
+	const renderStatus = useMemo(() => {
+		if (record.status === "checking") {
+			return [status[1]]
+		}
+		if (record.status === "borrowed") {
+			return [status[2]]
+		}
+		return []
+	}, [record.status])
 
 	const handleSubmit = async (values: typeof form.values) => {
 		setLoading(true)
@@ -130,8 +140,9 @@ const UpdateTransactionModal = ({ record }: { record: BorrowTransaction }) => {
 					</Grid.Col>
 					<Grid.Col span={3}>
 						<Select
-							data={status}
+							data={renderStatus}
 							value={record.status}
+							disabled={loading || renderStatus.length === 0}
 							key={form.key("status")}
 							{...form.getInputProps("status")}
 						/>
