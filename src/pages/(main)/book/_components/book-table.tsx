@@ -157,6 +157,11 @@ const columns: DataTableProps<Book>["columns"] = [
 		sortable: true,
 	},
 	{
+		accessor: "available",
+		title: "Available",
+		sortable: true,
+	},
+	{
 		accessor: "actions",
 		render: RenderActions,
 	},
